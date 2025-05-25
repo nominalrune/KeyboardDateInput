@@ -144,13 +144,13 @@ Pressing the right arrow moves the cursor to month input. Behavior follows “Ed
 Pressing backspace resets the month to "00".
 ##### Cursor Movement
 - Pressing the left arrow moves to year input — behavior follows “Edit Mode → Year Edit”.
-- Pressing the right arrow moves to day input — behavior follows “Edit Mode → Day Edit”.
+- Pressing the right arrow moves to day input — behavior follows “Edit Mode → Date Edit”.
 
-#### Day Edit
-- When the cursor is at the day position (yyyy/mm/dd|), it enters day edit mode.
-- The new input is combined with the 1st digit of the current day and compared against the month's max days:
+#### Date Edit
+- When the cursor is at the date position (yyyy/mm/dd|), it enters date edit mode.
+- The new input is combined with the 1st digit of the current date and compared against the month's max date:
   - If it exceeds the max: input is ignored.
-  - If valid: day is updated with the new value and remains in edit mode.
+  - If valid: date is updated with the new value and remains in edit mode.
   - Examples:
     - "01" + 0 → "01"
     - "01" + 1 → "11"
@@ -160,7 +160,7 @@ Pressing backspace resets the month to "00".
     - "31" + 9 → "09"
 
 ##### Deletion with Backspace
-Pressing backspace resets the day to "00".
+Pressing backspace resets the date to "00".
 
 ## License
 MIT License

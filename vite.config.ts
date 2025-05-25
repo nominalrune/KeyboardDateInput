@@ -11,6 +11,7 @@ export default defineConfig({
       tsconfigPath: './tsconfig.dist.json',
     })
   ],
+  
   build:{
     lib:{
       entry: 'src/index.ts',
