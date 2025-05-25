@@ -33,7 +33,6 @@ export default function formatMonthPart(month: string, preserveZero = false) {
 		return monthNumber.toString().padStart(2, "0");
 	}
 	const lastTwoDigit = parseInt(month.slice(month.length - 2, month.length));
-	console.log({ lastTwoDigit });
 	if (lastTwoDigit <= 12) {
 		return lastTwoDigit.toString().padStart(2, "0");
 	}

@@ -6,8 +6,9 @@ export default function formatMonthString(_input: string) {
 	const [_year, _month] = input.split("/");
 	// "yyyy/mm"の場合
 	if (_month && _month!=="0") {
+		const year = formatYearPart(_year);
 		const month = formatMonthPart(_month);
-		return `${formatYearPart(_year)}/${month}`;
+		return `${year}/${month}`;
 	}
 	// "yyyy"の場合
 	return formatMonthStringFromNumeric(_year);
