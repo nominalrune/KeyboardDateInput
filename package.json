@@ -1,6 +1,6 @@
 {
   "name": "keyboard-date-input",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -16,16 +16,16 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "react": "^18 || ^19.1.0",
-    "react-dom": "^18 || ^19.1.0"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@types/react": "^18 || ^19.1.2",
-    "@types/react-dom": "^18 || ^19.1.2",
+    "@types/react": ">=18",
+    "@types/react-dom": ">=18",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
