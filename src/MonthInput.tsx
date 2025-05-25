@@ -4,7 +4,7 @@ import handleKeyPress from './eventHandlers/handleKeyPress';
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-const MonthInput = forwardRef<HTMLInputElement>(({ onChange, ...otherProps }: Props, ref) => {
+const MonthInput = forwardRef<HTMLInputElement, Props>(({ onChange, ...otherProps }: Props, ref) => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		handleMonthChange(e);
 		if (onChange) {
