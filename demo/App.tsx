@@ -1,4 +1,4 @@
-import { DateInput, MonthInput, handleDateChange, handleKeyPress } from '../src';
+import { DateInput, MonthInput, handleMonthChange, handleKeyPress } from '../src';
 import CustomInput from "./CustomInput";
 import "./App.css";
 
@@ -15,7 +15,7 @@ function App() {
       </label>
       <label>
         CustomInput Example:
-        <CustomInput onChange={handleDateChange} onKeyDown={handleKeyPress} />
+        <CustomInput onChange={handleMonthChange} onKeyDown={handleKeyPress} />
       </label>
     </div>
   );

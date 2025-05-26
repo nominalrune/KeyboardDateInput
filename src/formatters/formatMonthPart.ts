@@ -4,6 +4,7 @@
  * @param preserveZero 月が0のときに"00"を返すかどうか
  * @returns 月部分の文字列
  * @example
+ * preserveZeroがfalseの場合
 * "1"   -> "01"
 * "01"  -> "01"
 * "12"  -> "12"
@@ -11,6 +12,7 @@
 * "93"  -> "03"
 * "930" -> "03"
 * "100" -> "00"
+* "101" -> "01"
 * "110" -> "10"
 * "120" -> "02"
 * "130" -> "03"
@@ -21,11 +23,9 @@
 * "abc" -> ""
 * 小数点、マイナスは未定義動作を引き起こす
 * 
-@TODO 検証
-*/
+ */
 export default function formatMonthPart(month: string, preserveZero = false) {
 	const monthNumber = parseInt(month);
-	console.log("formatMonth, monthNumber", monthNumber);
 	if (!monthNumber) {
 		return preserveZero ? "00" : "";
 	}
