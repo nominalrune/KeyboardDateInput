@@ -46,7 +46,8 @@ describe('DateInput_edit_mode: Month Edit', async () => {
     it("inputting '0' when month is '01' changes it to '10'; otherwise, input is ignored", async () => {
         const { getByRole, user, unmount } = render(<DateInput />);
         const input = getByRole('textbox') as HTMLInputElement;
-		await user.type(input, '2023/01/15');
+		await user.type(input, '2023/11/15{ArrowLeft}{Backspace}1');
+		expect(input.value).toBe('2023/01/15');
         input.setSelectionRange(CARET.MONTH, CARET.MONTH); // cursor at month segment
         await user.type(input, '0', { skipClick: true });
         expect(input.value).toBe('2023/10/15');
@@ -54,7 +55,7 @@ describe('DateInput_edit_mode: Month Edit', async () => {
 
         const { getByRole: getByRole2, user: user2, unmount: unmount2 } = render(<DateInput />);
         const input2 = getByRole2('textbox') as HTMLInputElement;
-		await user.type(input, '2023' + '2' + '15');
+		await user.type(input2, '2023' + '2' + '15');
         input2.setSelectionRange(CARET.MONTH, CARET.MONTH);
         await user2.type(input2, '0', { skipClick: true });
         expect(input2.value).toBe('2023/02/15');
