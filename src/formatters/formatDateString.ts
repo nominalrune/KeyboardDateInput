@@ -21,7 +21,7 @@ function formatDateStringWithSlashes(input: string) {
 	// "yyyy/mm/dd" になっている場合
 	if (_date) {
 		const month = formatMonthPart(_month, true);
-		const dateWithSlash = formatDatePart(_date, getLastDateOfMonth(year, month));
+		const dateWithSlash = formatDatePart(_date, getLastDateOfMonth(year, month), true);
 		return `${year}/${month}${dateWithSlash}`;
 	}
 	const monthCandidate = parseInt(_month);

@@ -8,6 +8,8 @@ import formatDateString from '../formatters/formatDateString';
  * 3. 整形した値をtarget.valueにセットする
  * 4. もとの値と整形値の文字数の差異に応じて、カーソルの位置を調整する
  * 
+ * @returns {Date} パース結果の日付
+ * 
  * @TODO カーソルの位置調整を外だし
  */
 const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +20,7 @@ const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	
 	e.target.value = output;
 	e.target.setSelectionRange(caret + diff, caret + diff);
+	return new Date(output.replace(/\//g, '-'));
 };
 
 export default handleDateChange;

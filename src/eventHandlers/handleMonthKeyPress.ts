@@ -1,5 +1,5 @@
-import clearBlock from './clearBlock';
-import moveCaret from './moveCaret';
+import clearBlock from './handleKeyPress/clearBlockForMonthInput';
+import moveCaret from './handleKeyPress/moveCaret';
 
 /**
  * Handles key press events for a date input field.

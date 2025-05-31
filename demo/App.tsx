@@ -1,8 +1,9 @@
-import { DateInput, MonthInput, handleMonthChange, handleKeyPress } from '../src';
+import { DateInput, MonthInput, withMonthInputFeature } from '../src';
 import CustomInput from "./CustomInput";
 import "./App.css";
 
 function App() {
+  const Input = withMonthInputFeature(CustomInput);
   return (
     <div className="app">
       <label>
@@ -15,7 +16,7 @@ function App() {
       </label>
       <label>
         CustomInput Example:
-        <CustomInput onChange={handleMonthChange} onKeyDown={handleKeyPress} />
+        <Input />
       </label>
     </div>
   );

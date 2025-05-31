@@ -1,8 +1,7 @@
 import { forwardRef } from "react";
 import handleDateChange from './eventHandlers/handleDateChange';
-import handleKeyPress from './eventHandlers/handleKeyPress';
-
-type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+import handleKeyPress from './eventHandlers/handleDateKeyPress';
+import type { Props } from './type/Props';
 
 const DateInput = forwardRef<HTMLInputElement, Props>(({ onChange, ...otherProps }:Props, ref) => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
