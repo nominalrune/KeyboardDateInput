@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import handleDateChange from './eventHandlers/handleDateChange'
 import handleDateKeyPress from './eventHandlers/handleDateKeyPress'
-
-type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+import type { Props } from './type/Props';
 
 const WithDateInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

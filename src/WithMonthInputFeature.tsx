@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import handleMonthChange from './eventHandlers/handleMonthChange'
 import handleMonthKeyPress from './eventHandlers/handleMonthKeyPress'
+import type { Props } from './type/Props';
 
-type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 const WithMonthInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
