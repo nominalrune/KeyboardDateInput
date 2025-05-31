@@ -158,7 +158,7 @@ describe('DateInput_edit_mode: Date Edit', async () => {
         expect(input2.value).toBe('2023/02/09');
 		unmount2();
 
-        // 10 -> 10 (input 0)
+        // 10 -> 00 (input 0)
         const { getByRole: getByRole3, user: user3, unmount: unmount3 } = render(<DateInput />);
         const input3 = getByRole3('textbox') as HTMLInputElement;
 		
@@ -166,7 +166,7 @@ describe('DateInput_edit_mode: Date Edit', async () => {
         expect(input3.value).toBe('2023/09/10');
         // input3.setSelectionRange(CARET.DATE, CARET.DATE);
         await user3.type(input3, '0', { skipClick: true });
-        expect(input3.value).toBe('2023/09/10');
+        expect(input3.value).toBe('2023/09/00');
 		unmount3();
 
         // 10 -> 03
@@ -178,13 +178,13 @@ describe('DateInput_edit_mode: Date Edit', async () => {
         expect(input4.value).toBe('2023/11/03');
 		unmount4();
 
-        // 31 -> 09
+        // 31 -> 19
         const { getByRole: getByRole5, user: user5 } = render(<DateInput/>);
         const input5 = getByRole5('textbox') as HTMLInputElement;
 		await user.type(input5, '2023' + '11' + '31');
         input5.setSelectionRange(CARET.DATE, CARET.DATE);
         await user5.type(input5, '9', { skipClick: true });
-        expect(input5.value).toBe('2023/11/09');
+        expect(input5.value).toBe('2023/11/19');
     });
 
     it('backspace in date edit mode resets the day to 00', async () => {

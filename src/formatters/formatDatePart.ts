@@ -15,11 +15,11 @@
 * "0"   -> ""
 * "00"  -> ""
 */
-export default function formatDatePart(date: string, lastDateOfMonth: number) {
+export default function formatDatePart(date: string, lastDateOfMonth: number, preserveZero: boolean = false): string {
 	const dateNumber = parseInt(date.slice(date.length - 2, date.length));
 	// 日付がNaN or 0なら""にする
 	if (!dateNumber || dateNumber === 0) {
-		return "";
+		return preserveZero ? "/00" : "";
 	} else if (dateNumber > lastDateOfMonth) {
 		return "/0" + date.at(-1);
 	} else {
