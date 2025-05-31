@@ -48,10 +48,10 @@ It currently supports a format of `YYYY/MM/DD` for dates and `YYYY/MM` for month
   - Returns a month input component that allows users to enter months in `YYYY/MM` format.
 - `handleDateChange(event)`: Handles date input changes. Set this as the `onChange` handler of your input component.
   - `event`: The input event.
-  - Returns undefined.
+  - Returns Date
 - `handleMonthChange(event)`: Handles month input changes. Set this as the `onChange` handler of your input component.
   - `event`: The input event.
-  - Returns undefined.
+  - Returns Date
 - `handleKeyPress(event)`: Handles key press events for date or month input. Set this as the `onKeyDown` handler of your input component.
   - `event`: The keydown event.
   - Returns undefined.
