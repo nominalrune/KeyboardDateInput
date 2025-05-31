@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import handleMonthChange from './eventHandlers/handleMonthChange';
-import handleKeyPress from './eventHandlers/handleKeyPress';
+import handleKeyPress from './eventHandlers/handleMonthKeyPress';
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
