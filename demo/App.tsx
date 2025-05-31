@@ -1,9 +1,9 @@
-import { DateInput, MonthInput, WithMonthInputFeature } from '../src';
+import { DateInput, MonthInput, withMonthInputFeature } from '../src';
 import CustomInput from "./CustomInput";
 import "./App.css";
 
 function App() {
-  const Input = WithMonthInputFeature(CustomInput);
+  const Input = withMonthInputFeature(CustomInput);
   return (
     <div className="app">
       <label>

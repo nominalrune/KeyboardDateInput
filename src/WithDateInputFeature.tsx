@@ -3,7 +3,7 @@ import handleDateChange from './eventHandlers/handleDateChange'
 import handleDateKeyPress from './eventHandlers/handleDateKeyPress'
 import type { Props } from './type/Props';
 
-const WithDateInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
+const withDateInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		handleDateChange(e);
 		if (params.onChange) {
@@ -25,4 +25,4 @@ const WithDateInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => 
 	</>
 })
 
-export default WithDateInputFeature;
+export default withDateInputFeature;

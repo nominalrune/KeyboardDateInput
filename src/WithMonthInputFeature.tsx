@@ -4,7 +4,7 @@ import handleMonthKeyPress from './eventHandlers/handleMonthKeyPress'
 import type { Props } from './type/Props';
 
 
-const WithMonthInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
+const withMonthInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) => ((params:T)=> {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		handleMonthChange(e);
 		if (params.onChange) {
@@ -26,4 +26,4 @@ const WithMonthInputFeature = <T extends Props>(Input: (params:T)=>ReactNode) =>
 	</>
 })
 
-export default WithMonthInputFeature;
+export default withMonthInputFeature;
