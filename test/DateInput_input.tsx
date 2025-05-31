@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { DateInput, MonthInput, handleDateChange, handleMonthChange, handleKeyPress } from '../src';
+import { DateInput, MonthInput, withDateInputFeature, withMonthInputFeature } from '../src';
 import '@testing-library/jest-dom/vitest';
 
 // 1. api test
@@ -46,37 +46,35 @@ describe('MonthInput', () => {
 	});
 });
 
-describe('handleDateChange', () => {
-	it('returns undefined', () => {
-		const mockSetSelectionRange = vi.fn();
-		const mockEvent = {
-			target: {
-				value: '2023/05/15',
-				setSelectionRange: mockSetSelectionRange,
-			},
-			preventDefault: vi.fn(),
-		};
-		expect(handleDateChange(mockEvent as any)).toBeUndefined();
+describe('withDateInputFeature', () => {
+	it('renders input element', () => {
+		const TestComponent = withDateInputFeature(({ onChange }) => (
+			<input onChange={onChange} />
+		));
+		const { getByRole } = render(<TestComponent />);
+		expect(getByRole('textbox')).toBeInTheDocument();
+		
 	});
-});
-
-describe('handleMonthChange', () => {
-	it('returns undefined', () => {
-		const mockSetSelectionRange = vi.fn();
-		const mockEvent = {
-			target: {
-				value: '2023/05',
-				setSelectionRange: mockSetSelectionRange,
-			},
-			preventDefault: vi.fn(),
-		};
-		expect(handleMonthChange(mockEvent as any)).toBeUndefined();
+	
+	it('calls handleDateChange on input change', () => {
+		const handleChange = vi.fn();
+		const TestComponent = withDateInputFeature(({ onChange }) => (
+			<input onChange={onChange} />
+		));
+		const { getByRole } = render(<TestComponent onChange={handleChange} />);
+		const input = getByRole('textbox');
+		fireEvent.change(input, { target: { value: '2023/07/20' } });
+		expect(handleChange).toHaveBeenCalled();
 	});
-});
 
-describe('handleKeyPress', () => {
-	it('returns undefined', () => {
-		const mockEvent = { key: '1', preventDefault: vi.fn() };
-		expect(handleKeyPress(mockEvent as any)).toBeUndefined();
+	it('calls handleKeyPress on key press', () => {
+		const handleKeyPress = vi.fn();
+		const TestComponent = withDateInputFeature(({ onKeyDown }) => (
+			<input onKeyDown={onKeyDown} />
+		));
+		const { getByRole } = render(<TestComponent onKeyDown={handleKeyPress} />);
+		const input = getByRole('textbox');
+		fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+		expect(handleKeyPress).toHaveBeenCalled();
 	});
 });
