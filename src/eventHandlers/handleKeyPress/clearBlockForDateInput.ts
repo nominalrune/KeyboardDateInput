@@ -7,7 +7,7 @@ import getCaret from '../../util/caret/getCaret';
 const clearBlockForDateInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
 	const target = e.target as HTMLInputElement;
 	const input = target.value;
-	if (!/^\d*\/\d*\d*$/.test(input)) {
+	if (!/^\d*\/\d*\/\d*$/.test(input)) {
 		// yyyy/mm/ddの形式を満たさないときは何もしない
 		return;
 	}
