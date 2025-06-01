@@ -14,6 +14,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
+    "publish-github-pages": "vite build --outDir docs --config vite.publish.config.ts",
     "publish": "node scripts/bumpVersion.js && npm run build && npm publish --access public"
   },
   "peerDependencies": {
