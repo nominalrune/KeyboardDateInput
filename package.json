@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "publish": "npm run build && npm publish --access public"
+    "publish": "node scripts/bumpVersion.js && npm run build && npm publish --access public"
   },
   "peerDependencies": {
     "react": ">=18",
