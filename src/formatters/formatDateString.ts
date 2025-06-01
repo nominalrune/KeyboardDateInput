@@ -3,12 +3,25 @@ import formatMonthPart from './formatMonthPart';
 import formatYearPart from './formatYearPart';
 import getLastDateOfMonth from '../util/date/getLastDateOfMonth';
 
-export default function formatDateString(_input: string) {
-	const input = _input.replace(/[^0-9/]/g, "");
-	if (input.includes("/")) {
-		return formatDateStringWithSlashes(input);
+/**
+ * 日付文字列をフォーマットする
+ * - 数値・"/"以外の入力は無視する
+ * - "yyyy/mm/dd"の形式で入力されているときは、Edit Modeとしてパース
+ * - それ以外の形式の場合、Input Modeとしてパース
+ * @param input 入力された日付文字列
+ * @returns フォーマットされた日付文字列
+ * @example
+ * formatDateString("2023/5/12")  // "2023/05/12"
+ * formatDateString("20230512")    // "2023/05/12"
+ * formatDateString("2023/5")      // "2023/05"
+ * formatDateString("202305")      // "2023/05"
+ */
+export default function formatDateString(input: string) {
+	const strippedInput = input.replace(/[^0-9/]/g, "");
+	if (strippedInput.includes("/")) {
+		return formatDateStringWithSlashes(strippedInput);
 	}
-	return formatDateStringFromNumeric(input);
+	return formatDateStringFromNumeric(strippedInput);
 }
 
 
