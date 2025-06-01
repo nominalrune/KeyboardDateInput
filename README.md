@@ -2,162 +2,126 @@
 
 EN / [JA](./README.ja.md)
 
-## About
-`keyboard-date-input` is a React component library that helps users to input dates and months using keyboard. It provides a simple way for entering dates without format errors.
-It currently supports a format of `YYYY/MM/DD` for dates and `YYYY/MM` for months. (For year, only 1000-9999 is supported)
+## Overview
+`keyboard-date-input` is a React component library that enables users to input dates and months efficiently using the keyboard. It helps prevent format errors and streamlines date entry.
 
+- **Supported formats:**
+  - Dates: `YYYY/MM/DD`
+  - Months: `YYYY/MM`
+  - Years: 1000–9999 only
 
-## How to use
-### Package Installation
-1. Install the package using npm:
-   ```bash
-   npm install keyboard-date-input
-   ```
-### Using Preset Input
-1. Import the preset input component:
-   ```javascript
-   import { DateInput, MonthInput } from 'keyboard-date-input';
-   ```
-2. Use the component in your application:
-   ```jsx
-    <DateInput
-      value={dateValue}
-      onChange={setDateValue}
-      className="date-input"
-    />
-    ```
-    
-### Using Custom Input
-1. Import functions for the custom input component:
-   ```javascript
-   import { handleDateChange, handleKeyPress } from 'keyboard-date-input';
-   ```
-2. Set `handleDateChange` or `handleMonthChange` as the `onChange` handler, and `handleKeyPress` as the `onKeyDown` handler:
-   ```jsx
-   <YourInputComponent
-     onChange={handleDateChange}
-     onKeyDown={handleKeyPress}
-     />
-   ```
-### API
-- `DateInput`: A React component for date input.
-  - Accepts the props as in HTMLInput element.
-  - Returns a date input component that allows users to enter dates in `YYYY/MM/DD` format.
-- `MonthInput`: A React component for month input.
-  - Accepts the props as in HTMLInput element.
-  - Returns a month input component that allows users to enter months in `YYYY/MM` format.
-- `withDateInputFeature`: A higher-order component that wraps a custom input component to provide date input functionality.
-  - `Component`: The custom input component to wrap.
-  - Returns a new component with date input functionality.
-- `withMonthInputFeature`: A higher-order component that wraps a custom input component to provide month input functionality.
-  - `Component`: The custom input component to wrap.
-  - Returns a new component with month input functionality.
+## Installation
+```bash
+npm install keyboard-date-input
+```
 
-## Specifications
-### Basic
-- Only numeric input is allowed.
-- Non-numeric characters are ignored.
-- There are two modes: initial input mode and edit mode.
+## Quick Start
+
+### Preset Components
+Import and use the provided input components:
+```javascript
+import { DateInput, MonthInput } from 'keyboard-date-input';
+```
+Example usage:
+```jsx
+<DateInput
+  value={dateValue}
+  onChange={setDateValue}
+  className="date-input"
+/>
+```
+
+You can use these components with form libraries like react-hook-form:
+```jsx
+const { register } = useForm();
+// ...
+return (
+  <form>
+    <DateInput {...register('date')} className="date-input" />
+  </form>
+);
+```
+
+### Custom Input Components
+Wrap your own input component to add date input features:
+```javascript
+import { withDateInputFeature } from 'keyboard-date-input';
+```
+Decorate your component:
+```jsx
+const DecoratedInput = withDateInputFeature(YourInputComponent);
+```
+Use it as a controlled input:
+```jsx
+<DecoratedInput value={dateValue} onChange={handleChange} />
+```
+
+## API Reference
+- **DateInput**: React component for date input (`YYYY/MM/DD`). Accepts all standard `<input>` props.
+- **MonthInput**: React component for month input (`YYYY/MM`). Accepts all standard `<input>` props.
+- **withDateInputFeature(Component)**: Higher-order component to add date input features to a custom input. The wrapped component should accept standard `<input>` props.
+- **withMonthInputFeature(Component)**: Higher-order component to add month input features to a custom input. The wrapped component should accept standard `<input>` props.
+
+## Features & Behavior
+
+### General
+- Only numeric input is accepted; non-numeric characters are ignored.
+- Two modes: **Initial Input Mode** and **Edit Mode**.
 
 ### Initial Input Mode
-- In initial input mode, once a number is entered, the input automatically moves to the next unit (year → month → day).
-- Slashes (/) are inserted automatically.
-- Input progresses through the following steps:
-  - Year input
-  - Month input
-  - Day input
+- Input automatically advances (year -> month -> day) as numbers are entered.
+- Slashes (`/`) are inserted automatically.
+- Steps: Year -> Month -> Day.
 
-#### Year Input
-- The year must be 4 digits.
-- Once 4 digits are entered, it automatically transitions to month input.
+#### Year
+- 4-digit year required. Advances to month after 4 digits.
+- **Backspace:** Deletes one character at a time.
+- **Arrow keys:**
+  - Ignored.
 
-##### Deletion with Backspace
-Pressing the backspace key deletes one character at a time (same behavior as native input).
-
-##### Cursor Movement
-- If the month hasn't been entered yet, the arrow keys do not move the cursor.
-- If the month has been entered:
-  - Pressing the right arrow key moves to month input.
-  - If the day hasn't been entered, behavior follows “Initial Input Mode → Month Input”.
-  - If the day has been entered, behavior follows “Edit Mode → Month Edit”.
-#### Month Input
+#### Month
 - First digit:
-  - Inputting 0 is ignored.
-  - Inputting a number from 3 to 9:
-    - If the year does not end with /, a slash is automatically inserted.
-    - The value is zero-padded (yyyy/03, yyyy/09, etc.).
-    - Moves to day input.
-  - Inputting 1:
-    - If the year does not end with /, a slash is automatically inserted.
-    - The value is zero-padded to become yyyy/01.
-    - Does not move to day input yet — waits for the second digit.
+  - `0`: Ignored.
+  - `3-9`: Zero-padded, advances to day.
+  - `1`: Waits for second digit.
 - Second digit:
-  - Inputting 3 to 9:
-    - Automatically inserts / after "01" and treats the input number as the beginning of the day (yyyy/01/03, etc.).
-  - Inputting 0, 1, or 2:
-    - Finalizes month as "10" or "12" and moves to day input.
-##### Deletion with Backspace
-- Backspace deletes one digit at a time during month input:
-  - Deleting the first digit returns to year input.
-  - Deleting the second digit leaves only the first digit.
-##### Cursor Movement
-- Pressing the left arrow moves the cursor to year input. Behavior follows “Edit Mode → Year Edit”.
-- If day has been entered, pressing the right arrow moves to day input. Behavior follows “Initial Input Mode → Day Input”.
-#### Day Input
+  - `3-9`: Treated as day input.
+  - `0-2`: Finalizes month, advances to day.
+- **Backspace:** Deletes one digit at a time; returns to year if first digit is deleted.
+- **Arrow keys:**
+  - Left: Moves to year.
+  - Right: Moves to day (if entered).
+
+#### Day
 - First digit:
-  - Inputting 0 is ignored.
-  - Inputting 1 to 9:
-    - If the month doesn't end with /, it’s automatically inserted.
-    - The value is zero-padded (yyyy/mm/01, etc.).
+  - `0`: Ignored.
+  - `1-9`: Zero-padded.
 - Second digit:
-  - Combines with the first digit and checks if the value exceeds the max days of the month.
-    - If it exceeds: input is ignored.
-    - If valid: combines as day value and transitions to edit mode.
-##### Deletion with Backspace
-Pressing backspace resets the day value to "00".
-##### Cursor Movement
-Pressing the left arrow moves the cursor to month input. Behavior follows “Edit Mode → Month Edit”.
+  - Combined with first; ignored if exceeds max days in month.
+- **Backspace:** Resets day to `00`.
+- **Arrow keys:**
+  - Left: Moves to month.
 
 ### Edit Mode
-When the input has the format yyyy/mm/dd, edit mode is enabled.
+- Enabled when input is complete (`yyyy/mm/dd`).
 
 #### Year Edit
-- When the cursor is at the year position (yyyy|/mm/dd), it enters year edit mode.
-- Inputting a number shifts the digits to the left: the 4th digit is dropped, and the new digit becomes the 1st.
-
-##### Deletion with Backspace
-Pressing backspace resets the year to "0000".
-##### Cursor Movement
-Pressing the right arrow moves the cursor to month input. Behavior follows “Edit Mode → Month Edit”.
+- Cursor at year. Input shifts digits left.
+- **Backspace:** Resets year to `0000`.
+- **Right arrow:** Moves to month.
 
 #### Month Edit
-- When the cursor is at the month position (yyyy/mm|/dd), it enters month edit mode.
-- Behavior based on input:
-  - 0: If the month is "01", it becomes "10"; otherwise ignored.
-  - 1: If the month is "01" or "11", it becomes "11"; otherwise changes to "01".
-  - 2: If the month is "01" or "11", it becomes "12"; otherwise changes to "02".
-  - 3 to 9: Zero-padded and set as the new month value.
-##### Deletion with Backspace
-Pressing backspace resets the month to "00".
-##### Cursor Movement
-- Pressing the left arrow moves to year input — behavior follows “Edit Mode → Year Edit”.
-- Pressing the right arrow moves to day input — behavior follows “Edit Mode → Date Edit”.
+- Cursor at month. Input rules:
+  - `0`: If month is `01`, becomes `10`.
+  - `1`: If `01` or `11`, becomes `11`; else `01`.
+  - `2`: If `01` or `11`, becomes `12`; else `02`.
+  - `3-9`: Zero-padded as new month.
+- **Backspace:** Resets month to `00`.
+- **Left/Right arrows:** Move to year/day.
 
-#### Date Edit
-- When the cursor is at the date position (yyyy/mm/dd|), it enters date edit mode.
-- The new input is combined with the 1st digit of the current date and compared against the month's max date:
-  - If it exceeds the max: input is ignored.
-  - If valid: date is updated with the new value and remains in edit mode.
-  - Examples:
-    - "01" + 0 → "01"
-    - "01" + 1 → "11"
-    - "10" + 3 → "03"
-    - "11" + 0 → "10"
-    - "12" + 3 → "23"
-    - "31" + 9 → "09"
-
-##### Deletion with Backspace
-Pressing backspace resets the date to "00".
+#### Day Edit
+- Cursor at day. Input is combined with first digit and checked against max days.
+- **Backspace:** Resets day to `00`.
 
 ## License
 MIT License
