@@ -1,9 +1,25 @@
 import formatMonthPart from './formatMonthPart';
 import formatYearPart from './formatYearPart';
 
-export default function formatMonthString(_input: string) {
-	const input = _input.replace(/[^0-9/]/g, "");
-	const [_year, _month] = input.split("/");
+/**
+ * 年月入力をパース・フォーマットする
+ * - "yyyy/mm" または "yyyy/mm/dd" の形式で入力された場合、Edit Modeとして年月部分をフォーマットする
+ * - それ以外の形式の場合、Input Modeとして年月部分をフォーマットする
+ * @param input 年月部分の文字列
+ * @returns 年月部分の文字列
+ * @example
+ * formatMonthString("2023/5")  // "2023/05"
+ * formatMonthString("202305")    // "2023/05"
+ * formatMonthString("2023/11/15") // "2023/11"
+ * formatMonthString("20231115")   // "2023/11"
+ * formatMonthString("2023")       // "2023"
+ * formatMonthString("2023/0")     // "2023"
+ * formatMonthString("2023/00")    // "2023"
+ * formatMonthString("2023/13")    // "2023/03"
+ */
+export default function formatMonthString(input: string) {
+	const strippedInput = input.replace(/[^0-9/]/g, "");
+	const [_year, _month] = strippedInput.split("/");
 	// "yyyy/mm"の場合
 	if (_month && _month!=="0") {
 		const year = formatYearPart(_year);

@@ -1,6 +1,6 @@
 {
   "name": "keyboard-date-input",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish-github-pages": "vite build --outDir docs --config vite.publish.config.ts",
+    "publish": "node scripts/bumpVersion.js && npm run build && npm publish --access public"
   },
   "peerDependencies": {
     "react": ">=18",

@@ -4,7 +4,7 @@
 * @param date 日付部分の文字列
 * @param lastDateOfMonth 月の最終日
 * @returns 日付部分の文字列
-* @example
+* @example preserveZeroがfalseの場合
 * "1"   -> "/01"
 * "01"  -> "/01"
 * "010" -> "/10"
@@ -14,6 +14,10 @@
 * "339" -> "/09"
 * "0"   -> ""
 * "00"  -> ""
+* 
+* preserveZeroがtrueの場合
+* "0"   -> "/00"
+* "00"  -> "/00"
 */
 export default function formatDatePart(date: string, lastDateOfMonth: number, preserveZero: boolean = false): string {
 	const dateNumber = parseInt(date.slice(date.length - 2, date.length));
