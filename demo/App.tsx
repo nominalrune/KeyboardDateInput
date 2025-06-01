@@ -9,6 +9,21 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 function App() {
   const Input = withMonthInputFeature(CustomInput);
   return (<>
+    <div className="app">
+      <h1>Date Input Examples</h1>
+      <label>
+        Month:
+        <MonthInput />
+      </label>
+      <label>
+        Date:
+        <DateInput />
+      </label>
+      <label>
+        CustomInput Example:
+        <Input />
+      </label>
+    </div>
     <Markdown
       components={{
         code(props) {
@@ -29,21 +44,7 @@ function App() {
           );
         }
       }}>{markdown}</Markdown>
-    <div className="app">
-      <h1>Date Input Examples</h1>
-      <label>
-        Month:
-        <MonthInput />
-      </label>
-      <label>
-        Date:
-        <DateInput />
-      </label>
-      <label>
-        CustomInput Example:
-        <Input />
-      </label>
-    </div>
+
   </>);
 }
 
