@@ -153,11 +153,12 @@ describe('DateInput_initial_input: Date Input', async () => {
 	});
 
 	it('combines valid second digit as day value and transitions to edit mode', async () => {
-		const { getByRole, user } = render(<DateInput />);
+		const { getByRole, user, unmount } = render(<DateInput />);
 		const input = getByRole('textbox') as HTMLInputElement;
 		await user.type(input, '2022' + '12' + '1');
 		await user.type(input, '2');
 		expect(input.value).toBe('2022/12/12');
+		unmount();
 	});
 
 	it('overwrite if second digit that exceeds max days of the month ', async () => {
@@ -166,6 +167,13 @@ describe('DateInput_initial_input: Date Input', async () => {
 		await user.type(input, '2022' + '2' + '3');
 		await user.type(input, '4');
 		expect(input.value).toBe('2022/02/04');
+		
+		// 15 -> 00 (input 0)
+		const { getByRole: getByRole2, user: user2 } = render(<DateInput />);
+		const input2 = getByRole2('textbox') as HTMLInputElement;
+		await user.type(input2, '2023' + '11' + '15');
+		await user2.type(input2, '0', { skipClick: true });
+		expect(input2.value).toBe('2023/11/00');
 	});
 
 	it("backspace resets the day value to '00'", async () => {
@@ -183,5 +191,45 @@ describe('DateInput_initial_input: Date Input', async () => {
 		input.setSelectionRange(CARET.DATE, CARET.DATE); // cursor at end of day
 		await user.type(input, '{ArrowLeft}');
 		expect(input.selectionStart).toBe(CARET.MONTH);
+	});
+});
+
+describe('DateInput_initial_input: Edge Cases', async () => {
+	it('handles leap year for February (29 days) in initial input', async () => {
+		const { getByRole, user } = render(<DateInput />);
+		const input = getByRole('textbox') as HTMLInputElement;
+		await user.type(input, '2024' + '2' + '29'); // 2024 is a leap year
+		expect(input.value).toBe('2024/02/29');
+	});
+
+	it('prevents invalid month input (e.g., 13) in initial input', async () => {
+		const { getByRole, user } = render(<DateInput />);
+		const input = getByRole('textbox') as HTMLInputElement;
+		await user.type(input, '2023' + '13' + '15');
+		// Should not allow 13 as month, should treat as 01/31/5 or similar fallback
+		expect(input.value.slice(5, 7)).not.toBe('13');
+		expect(Number(input.value.slice(5, 7))).toBeLessThanOrEqual(12);
+	});
+
+	it('prevents invalid day input (e.g., 32) in initial input', async () => {
+		const { getByRole, user } = render(<DateInput />);
+		const input = getByRole('textbox') as HTMLInputElement;
+		await user.type(input, '2023' + '1' + '32');
+		// Should not allow 32 as day, should fallback to valid day
+		expect(Number(input.value.slice(8, 10))).toBeLessThanOrEqual(31);
+	});
+
+	it('cursor moves to correct segment after resetting a segment in initial input', async () => {
+		const { getByRole, user } = render(<DateInput />);
+		const input = getByRole('textbox') as HTMLInputElement;
+		await user.type(input, '2023' + '5' + '15');
+		input.setSelectionRange(CARET.MONTH, CARET.MONTH);
+		await user.type(input, '{Backspace}', { skipClick: true });
+		expect(input.value.slice(5, 7)).toBe('00');
+		expect(input.selectionStart).toBe(CARET.MONTH);
+		input.setSelectionRange(CARET.DATE, CARET.DATE);
+		await user.type(input, '{Backspace}', { skipClick: true });
+		expect(input.value.slice(8, 10)).toBe('00');
+		expect(input.selectionStart).toBe(CARET.DATE);
 	});
 });

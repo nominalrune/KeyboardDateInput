@@ -1,9 +1,8 @@
-import React from "react";
+import React from 'react';
 import render from "./render";
 import { describe, it, expect } from 'vitest';
 import { DateInput } from '../src';
 import '@testing-library/jest-dom/vitest';
-import userEvent from '@testing-library/user-event';
 
 const CARET = {
 	YEAR: 4,
@@ -179,12 +178,20 @@ describe('DateInput_edit_mode: Date Edit', async () => {
 		unmount4();
 
         // 31 -> 19
-        const { getByRole: getByRole5, user: user5 } = render(<DateInput/>);
+        const { getByRole: getByRole5, user: user5, unmount:unmount5 } = render(<DateInput/>);
         const input5 = getByRole5('textbox') as HTMLInputElement;
 		await user.type(input5, '2023' + '11' + '31');
         input5.setSelectionRange(CARET.DATE, CARET.DATE);
         await user5.type(input5, '9', { skipClick: true });
         expect(input5.value).toBe('2023/11/19');
+        unmount5();
+        
+        // 15 -> 00 (input 0)
+        const { getByRole: getByRole6, user: user6 } = render(<DateInput/>);
+        const input6 = getByRole6('textbox') as HTMLInputElement;
+		await user.type(input6, '2023' + '11' + '15');
+        await user6.type(input6, '0', { skipClick: true });
+        expect(input6.value).toBe('2023/11/00');
     });
 
     it('backspace in date edit mode resets the day to 00', async () => {
@@ -203,5 +210,46 @@ describe('DateInput_edit_mode: Date Edit', async () => {
         input.setSelectionRange(CARET.DATE, CARET.DATE);
         await user.type(input, '{ArrowLeft}', { skipClick: true });
         expect(input.selectionStart).toBe(CARET.MONTH);
+    });
+});
+
+describe('DateInput_edit_mode: Edge Cases', async () => {
+    it('handles leap year for February (29 days)', async () => {
+        const { getByRole, user } = render(<DateInput />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        await user.type(input, '2024' + '2' + '29'); // 2024 is a leap year
+        expect(input.value).toBe('2024/02/29');
+    });
+
+    it('prevents invalid month input (e.g., 13)', async () => {
+        const { getByRole, user } = render(<DateInput />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        await user.type(input, '2023' + '1' + '15');
+        input.setSelectionRange(CARET.MONTH, CARET.MONTH);
+        await user.type(input, '3', { skipClick: true }); // Should become 03, not 13
+        expect(input.value.slice(5, 7)).toBe('03');
+    });
+
+    it('prevents invalid day input (e.g., 32)', async () => {
+        const { getByRole, user } = render(<DateInput />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        await user.type(input, '2023' + '1' + '31');
+        input.setSelectionRange(CARET.DATE, CARET.DATE);
+        await user.type(input, '2', { skipClick: true }); // 31 -> 12 (since 32 is invalid)
+        expect(input.value).toBe('2023/01/12');
+    });
+
+    it('cursor moves to correct segment after resetting a segment', async () => {
+        const { getByRole, user } = render(<DateInput />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        await user.type(input, '2023' + '5' + '15');
+        input.setSelectionRange(CARET.MONTH, CARET.MONTH);
+        await user.type(input, '{Backspace}', { skipClick: true });
+        expect(input.value.slice(5, 7)).toBe('00');
+        expect(input.selectionStart).toBe(CARET.MONTH);
+        input.setSelectionRange(CARET.DATE, CARET.DATE);
+        await user.type(input, '{Backspace}', { skipClick: true });
+        expect(input.value.slice(8, 10)).toBe('00');
+        expect(input.selectionStart).toBe(CARET.DATE);
     });
 });
