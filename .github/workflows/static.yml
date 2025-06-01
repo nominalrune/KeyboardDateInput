@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build static site
         run: npm run publish-github-pages
       - name: Upload artifact
