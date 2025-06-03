@@ -10,6 +10,8 @@ function App() {
   const Input = withMonthInputFeature(CustomInput);
   return (<>
     <div className="app">
+      <div className="block">
+        
       <h1>Date Input Examples</h1>
       <label>
         Month:
@@ -24,6 +26,9 @@ function App() {
         <Input />
       </label>
     </div>
+      </div>
+      <div className="block">
+        
     <Markdown
       components={{
         code(props) {
@@ -45,6 +50,7 @@ function App() {
         }
       }}>{markdown}</Markdown>
 
+      </div>
   </>);
 }
 
