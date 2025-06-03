@@ -162,11 +162,12 @@ describe('DateInput_initial_input: Date Input', async () => {
 	});
 
 	it('overwrite if second digit that exceeds max days of the month ', async () => {
-		const { getByRole, user } = render(<DateInput />);
+		const { getByRole, user, unmount } = render(<DateInput />);
 		const input = getByRole('textbox') as HTMLInputElement;
 		await user.type(input, '2022' + '2' + '3');
 		await user.type(input, '4');
 		expect(input.value).toBe('2022/02/04');
+		unmount();
 		
 		// 15 -> 00 (input 0)
 		const { getByRole: getByRole2, user: user2 } = render(<DateInput />);
