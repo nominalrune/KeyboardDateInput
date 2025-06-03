@@ -1,5 +1,5 @@
 :root{
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", sans-serif;
 }
 
 .app {
@@ -8,7 +8,14 @@
   align-items: center;
   justify-content: left;
   gap: 1rem;
-  height: 100vh;
+}
+
+code{
+  font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+  color: black;
+  background-color: #cfcfcf;
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .app label {

@@ -1,11 +1,16 @@
 import { DateInput, MonthInput, withMonthInputFeature } from '../src';
 import CustomInput from "./CustomInput";
 import "./App.css";
+import Markdown from 'react-markdown';
+import markdown from '../README.md?raw';
+import { Prism } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function App() {
   const Input = withMonthInputFeature(CustomInput);
-  return (
+  return (<>
     <div className="app">
+      <h1>Date Input Examples</h1>
       <label>
         Month:
         <MonthInput />
@@ -19,7 +24,28 @@ function App() {
         <Input />
       </label>
     </div>
-  );
+    <Markdown
+      components={{
+        code(props) {
+          const { children, className, node, ...rest } = props;
+          const match = /language-(\w+)/.exec(className || '');
+          return match ? (
+            <Prism
+              {...rest}
+              PreTag="div"
+              children={String(children).replace(/\n$/, '')}
+              language={match[1]}
+              style={oneDark}
+            />
+          ) : (
+            <code {...rest} className={className}>
+              {children}
+            </code>
+          );
+        }
+      }}>{markdown}</Markdown>
+
+  </>);
 }
 
 export default App;
