@@ -21,6 +21,9 @@ const clearBlockForDateInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
 	} else if (caret.current === caret.month) {
 		target.value = `${year}/00/${date}`;
 		target.setSelectionRange(caret.month, caret.month);
+	} else if (date === '00') {
+		target.value = `${year}/${month}`;
+		target.setSelectionRange(caret.month, caret.month);
 	} else if (date) {
 		target.value = `${year}/${month}/00`;
 		target.setSelectionRange(caret.date, caret.date);

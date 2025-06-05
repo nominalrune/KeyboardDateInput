@@ -121,7 +121,7 @@ Use it as a controlled input:
 
 #### Day Edit
 - Cursor at day. Input is combined with first digit and checked against max days.
-- **Backspace:** Resets day to `00`.
+- **Backspace:** If the day is `00`, deletes day part and moves to Month Input Mode. Otherwise, resets day to `00`.
 
 ## License
 MIT License

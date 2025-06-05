@@ -203,6 +203,19 @@ describe('DateInput_edit_mode: Date Edit', async () => {
         expect(input.value).toBe('2023/05/00');
     });
 
+    it("backspace when day is '00' deletes day part and moves to Month Input Mode", async () => {
+        const { getByRole, user } = render(<DateInput />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        await user.type(input, '2023' + '5' + '5');
+        await user.type(input, '{Backspace}', { skipClick: true });  // set day to 00
+        expect(input.value).toBe('2023/05/00');
+        await user.type(input, '{Backspace}', { skipClick: true });
+        // After deleting day part, should move to month input mode (day part deleted or reset)
+        // Expect day part to be deleted or reset, and cursor at month segment
+        expect(input.value).toBe('2023/05'); // day part deleted
+        expect(input.selectionStart).toBe(CARET.MONTH);
+    });
+
     it('left arrow in date edit mode moves cursor to month segment', async () => {
         const { getByRole, user } = render(<DateInput />);
         const input = getByRole('textbox') as HTMLInputElement;
